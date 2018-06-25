@@ -23,19 +23,17 @@
 (define (rotr n value rot)
   (cast
     (bitwise-ior
-      (>> value (- rot))
+      (>> value rot)
       (<< value (bitwise-and (- rot) (sub1 n))))
     32))
 
-;; Output functions
-
+;; Output function
 (define (output-xsh-rr-64-32 state)
   (rotr 32
         (cast (>> (bitwise-xor (>> state 18) state) 27) 32)
         (>> state 59)))
 
-;; Step functions
-
+;; Step function
 (define (pcg-step-64 state)
   (cast (+
           (cast (* state default-multiplier-64) 64)
