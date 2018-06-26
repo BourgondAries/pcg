@@ -4,8 +4,9 @@
 ;; The functions `pcg` and `pcg-view` are pcg-step-64 and PCG-XSG-RR (the view function) respectively, as recommended
 ;; by the paper
 ;; http://www.pcg-random.org/pdf/hmc-cs-2014-0905.pdf, section 6.3.1
-(provide (rename-out [pcg-step-64         pcg]
-                     [output-xsh-rr-64-32 pcg-view]))
+(provide (rename-out [pcg-step-64                pcg]
+                     [output-xsh-rr-64-32        pcg-view]
+                     [output-xsh-rr-64-32-decide pcg-decide]))
 
 ;;;; Utilities
 (define << arithmetic-shift)
@@ -32,6 +33,10 @@
   (rotr 32
         (cast (>> (bitwise-xor (>> state 18) state) 27) 32)
         (>> state 59)))
+
+;; Output function returning #t or #f
+(define (output-xsh-rr-64-32-decide state)
+  (= (modulo (output-xsh-rr-64-32 state) 2) 1))
 
 ;; Step function
 (define (pcg-step-64 state)
