@@ -26,3 +26,13 @@ Permuted congruential generators (PCG) are a class of pseudo-random number gener
   Transform the state into its view.
   The view is PCG-XSG-RR.
 }
+
+@defproc[(pcg-decide [state natural?]) bool?]{
+  Transform the state into a boolean value.
+  Uses pcg-view and masks all but one bit.
+}
+
+@examples[#:label #f
+  (require pcg)
+  (define state (pcg 3912))
+  (pcg-decide state)]
